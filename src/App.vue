@@ -1,20 +1,23 @@
 <template>
   <div id="app">
     <location-details :location="location" />
+    <forecast-details :forecast="forecasts[0]" />
   </div>
 </template>
 
 <script>
 import LocationDetails from './components/LocationDetails.vue';
-import { location } from './data/forecast.json';
+import ForecastDetails from './components/ForecastDetails.vue';
+import { location, forecasts } from './data/forecast.json';
 
 export default {
   name: 'App',
   components: {
     LocationDetails,
+    ForecastDetails,
   },
   data() {
-    return { location };
+    return { location, forecasts };
   },
 };
 </script>
