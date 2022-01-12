@@ -3,7 +3,7 @@
     <location-details :location="location" />
     <forecast-summaries
       :forecastSummaries="forecasts"
-      :callback="selectForecast"
+      @showDetails="selectForecast"
     />
     <forecast-details :forecast="currentForecast" />
   </div>
@@ -23,8 +23,11 @@ export default {
     ForecastDetails,
   },
   methods: {
-    selectForecast(date) {
-      console.log('test', date);
+    selectForecast(selectedDate) {
+      const currentForecast = forecasts.find(
+        (forecast) => forecast.date === selectedDate
+      );
+      this.currentForecast = currentForecast;
     },
   },
   data() {
