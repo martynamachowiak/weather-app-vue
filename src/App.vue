@@ -1,23 +1,39 @@
 <template>
   <div id="app">
     <location-details :location="location" />
-    <forecast-details :forecast="forecasts[0]" />
+    <forecast-summaries
+      :forecastSummaries="forecasts"
+      :callback="selectForecast"
+    />
+    <forecast-details :forecast="currentForecast" />
   </div>
 </template>
 
 <script>
 import LocationDetails from './components/LocationDetails.vue';
 import ForecastDetails from './components/ForecastDetails.vue';
+import ForecastSummaries from './components/ForecastSummaries.vue';
 import { location, forecasts } from './data/forecast.json';
 
 export default {
   name: 'App',
   components: {
     LocationDetails,
+    ForecastSummaries,
     ForecastDetails,
   },
+  methods: {
+    selectForecast(date) {
+      console.log('test', date);
+    },
+  },
   data() {
-    return { location, forecasts };
+    return {
+      location,
+      forecasts,
+      currentForecast: forecasts[0],
+      handleSelectForecast: this.selectForecast,
+    };
   },
 };
 </script>
