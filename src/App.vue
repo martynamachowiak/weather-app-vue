@@ -1,16 +1,21 @@
 <template>
   <div id="app">
-    <LocationDetails />
+    <location-details :location="location" />
   </div>
 </template>
 
 <script>
 import LocationDetails from './components/LocationDetails.vue';
+import { location } from './data/forecast.json';
+console.log(location);
 
 export default {
   name: 'App',
   components: {
     LocationDetails,
+  },
+  data() {
+    return { location };
   },
 };
 </script>

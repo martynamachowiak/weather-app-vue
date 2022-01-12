@@ -1,10 +1,14 @@
 <template>
   <div>
-    <h2>Location details</h2>
-    <p>Lorem ipsum</p>
+    <h2>{{ location.city }}, {{ location.country }}</h2>
   </div>
 </template>
 
 <script>
-export default { name: 'LocationDetails' };
+export default {
+  name: 'LocationDetails',
+  props: {
+    location: {},
+  },
+};
 </script>
