@@ -8,7 +8,7 @@
 export default {
   name: 'LocationDetails',
   props: {
-    location: {},
+    location: Object,
   },
 };
 </script>

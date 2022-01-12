@@ -7,7 +7,6 @@
 <script>
 import LocationDetails from './components/LocationDetails.vue';
 import { location } from './data/forecast.json';
-console.log(location);
 
 export default {
   name: 'App',
