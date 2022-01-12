@@ -1,19 +1,29 @@
 <template>
   <div id="app">
-    <location-details :location="location" />
+    <location-details v-if="location" :location="location" />
+
+    <div v-else>Loading location...</div>
+
     <forecast-summaries
+      v-if="forecasts.length > 0"
       :forecastSummaries="forecasts"
-      @showDetails="selectForecast"
+      @showDetails="handelSelectForecast"
     />
-    <forecast-details :forecast="currentForecast" />
+
+    <div v-else>Loading forecasts...</div>
+
+    <forecast-details v-if="selectedForecast" :forecast="selectedForecast" />
+    <div v-else>Loading detailed forecast...</div>
   </div>
 </template>
 
 <script>
-import LocationDetails from './components/LocationDetails.vue';
-import ForecastDetails from './components/ForecastDetails.vue';
-import ForecastSummaries from './components/ForecastSummaries.vue';
-import { location, forecasts } from './data/forecast.json';
+import { getForecast } from './requests/getForecast';
+import {
+  LocationDetails,
+  ForecastDetails,
+  ForecastSummaries,
+} from './components';
 
 export default {
   name: 'App',
@@ -22,21 +32,36 @@ export default {
     ForecastSummaries,
     ForecastDetails,
   },
-  methods: {
-    selectForecast(selectedDate) {
-      const currentForecast = forecasts.find(
-        (forecast) => forecast.date === selectedDate
-      );
-      this.currentForecast = currentForecast;
-    },
-  },
   data() {
     return {
-      location,
-      forecasts,
-      currentForecast: forecasts[0],
-      handleSelectForecast: this.selectForecast,
+      response: null,
+      selectedForecast: null,
     };
+  },
+  computed: {
+    location() {
+      return this.response?.location;
+    },
+    forecasts() {
+      return this.response?.forecasts ?? [];
+    },
+  },
+  mounted() {
+    this.fetch();
+  },
+  methods: {
+    handelSelectForecast(selectedDate) {
+      this.selectedForecast = this.forecasts.find(
+        (forecast) => forecast.date === selectedDate
+      );
+    },
+    fetch() {
+      getForecast().then((data) => {
+        this.response = data;
+        this.selectedForecast =
+          data.forecasts.length > 0 ? data.forecasts[0] : null;
+      });
+    },
   },
 };
 </script>
